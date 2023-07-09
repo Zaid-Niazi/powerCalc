@@ -102,7 +102,34 @@ function displayOperator(event){
     }
 
     else if(text === '='){
+        if (bufferArray.length >= 1){
+            if (typeof bufferArray[bufferArray.length-1] !== 'number'){
+                bufferArray.push(buffer.join(''))
+                bufferArray.push(opArray[opArray.length-1])
+                displayArray.push(opArray[opArray.length-1]) 
+                display.textContent = displayArray.join('')
+            }
+            else if (typeof bufferArray[bufferArray.length-1] === 'number'){
+                bufferArray.push(opArray[opArray.length-1])            
+                bufferArray.push(buffer.join(''))
+                displayArray.push(text) 
+                display.textContent = displayArray.join('')
+    
+    
+            }
 
+
+
+        if(bufferArray.length >= 3){
+            let num1 = Number(bufferArray[0])
+            let op = (bufferArray[1])
+            let num2 = Number(bufferArray[2])
+            console.log(num1, op, num2)
+        
+            if(typeof Number(num2) === 'number'){
+                equals (num1, op, num2)
+            }
+        }
     }
 
 }
@@ -151,7 +178,7 @@ function midOperations(text){
             bufferArray[bufferArray.length-1] = text
             bufferArray.push(text)
             displayArray.push(text)
-            display.textContent = displayArray
+            display.textContent = displayArray.join()
         }
 
         }
@@ -218,6 +245,46 @@ function operate (num1, op, num2){
     displayArray = [result]
     buffer = []
     bufferArray=[result]
-    display.textContent = displayArray
+    displayArray.push(opArray[opArray.length-1])
+    display.textContent = displayArray.join('')
+    
+}
+}
+
+
+function equals (num1, op, num2){
+    let result;
+
+
+   switch(op){
+
+    case '+' :
+    result = num1+num2
+    break;
+
+    case '-' :
+    result = num1-num2
+    break;
+    
+
+    case 'x' :
+    result = num1*num2
+    break;
+   
+
+    case '/' :
+    result = num1/num2
+    break;
+    
+
+
+   }
+
+
+
+    displayArray = [result]
+    buffer = []
+    bufferArray=[result]
+    display.textContent = displayArray.join('')
     
 }
