@@ -20,19 +20,43 @@ container.appendChild(sidePad);
 
 // numButtons
 for (let i = 9; i >= 0; i--) {
-  let numButtons = document.createElement('div');
-  numButtons.className = 'numButtons' + ' c' + i;
-  numButtons.textContent = i;
-  numButtons.addEventListener('click', displayNumbers);
-  numPad.appendChild(numButtons);
+    let numButtons = document.createElement('div');
+    numButtons.className = 'numButtons' + ' c' + i;
+    numButtons.textContent = i;
+    numButtons.addEventListener('click', displayNumbers);
+    numPad.appendChild(numButtons);
+}
+
+for(let i =0; i<2; i++){
+    let extraButtons = document.createElement('div');
+    extraButtons.className = 'eb' + ' d' + i;
+    extraButtons.addEventListener('click', displayNumbers);
+    numPad.appendChild(extraButtons);
+}
+
+const dot = document.querySelector('.d0');
+const clr = document.querySelector('.d1');
+
+dot.textContent = '.';
+clr.textContent = 'CLR';
+clr.addEventListener('click', clear)
+
+function clear(){
+    displayArray=[]
+    secondDisplayArray=[]
+    buffer=[]
+    bufferArray=[]
+    display.textContent=displayArray
+    secondDisplay.textContent=secondDisplayArray
+    opArray=[]
 }
 
 // sidePad Buttons
 for (let i = 0; i < 5; i++) {
-  let sideButtons = document.createElement('div');
-  sideButtons.className = 'sideButtons' + ' b' + i;
-  sideButtons.addEventListener('click', displayNumbers);
-  sidePad.appendChild(sideButtons);
+    let sideButtons = document.createElement('div');
+    sideButtons.className = 'sideButtons' + ' b' + i;
+    sideButtons.addEventListener('click', displayOperator);
+    sidePad.appendChild(sideButtons);
 }
 
 // Operators
@@ -48,112 +72,152 @@ mul.textContent = 'x';
 div.textContent = '/';
 ent.textContent = '=';
 
-
 // Arrays
 let displayArray = [];
 let buffer = [];
 let bufferArray = [];
 let secondDisplayArray = [];
+let opArray = []
 
 // Functions
-function displayNumbers(event) {
-  let text = event.target.textContent;
-
-  if (text !== '+' && text !== '-' && text !== 'x' && text !== '/' && text !== '=') {
-    displayArray.push(text);
-    buffer.push(text);
-    display.textContent = displayArray.join('');
-  } 
-  
-  else if (text === '+' || text === '-' || text === 'x' || text === '/') {
-    let index = Number(displayArray[displayArray.length - 1]);
-    if (displayArray.length < 3) {
-      if (!isNaN(index)) {
-        displayArray.push(text);
-
-        if (buffer.length !== 0) {
-          bufferArray.push(buffer.join(''));
-          bufferArray.push(text);
-          buffer = [];
-
-          display.textContent = displayArray.join('');
-        }
-      }
-    } 
-    
-    else if (displayArray.length >= 3) {
-      if (!isNaN(index)) {
-        if (buffer.length !== 0) {
-          bufferArray.push(buffer.join(''));
-          buffer = [];
-        }
-        secondDisplay.textContent = displayArray.join('');
-
-        let num1 = Number(bufferArray[0]);
-        let op = bufferArray[1];
-        let num2 = Number(bufferArray[2]);
-
-        operate(bufferArray);
-        bufferArray = [];
-      }
-    }
-  } 
-  
-  else if (text === '=') {
-    if (buffer.length !== 0) {
-      bufferArray.push(buffer.join(''));
-      buffer = [];
-    }
-    secondDisplay.textContent = displayArray.join('');
-    console.log(buffer);
-
-    let num1 = Number(bufferArray[0]);
-    let op = bufferArray[1];
-    let num2 = Number(bufferArray[2]);
-
-    operate(bufferArray);
-    bufferArray = [];
-  } 
-  
-  else if (buffer.length === 0) {
-    display.textContent = 0;
-  }
+function displayNumbers(event){
+    let text = event.target.textContent
+    displayArray.push(text)
+    display.textContent = displayArray.join('')
+    buffer.push(text)
 }
 
-function operate(arr) {
-  let final;
+function displayOperator(event){
+    let text = event.target.textContent
+    if(text !== '='){
 
-  if (arr.find(x => x === '+') === '+') {
-    final = arr.reduce((acc, item) => {
-      if (typeof Number(item) == 'number') {
-        !isNaN(item) ? (acc += Number(item)) : null;
-        return acc;
+      opArray.push(text)
+      console.log(opArray)
+      if(opArray.length === 1){
+      midOperations(text)     
       }
-    }, 0);
-  } else if (arr.find(x => x === '-') === '-') {
-    final = arr.reduce((acc, item) => {
-      if (typeof Number(item) == 'number') {
-        !isNaN(item) ? (acc -= Number(item)) : null;
-        return acc;
+      else if(opArray.length >1){
+        midOperations(opArray[opArray.length-2])
       }
-    });
-  } else if (arr.find(x => x === 'x') === 'x') {
-    final = arr.reduce((acc, item) => {
-      if (typeof Number(item) == 'number') {
-        !isNaN(item) ? (acc *= Number(item)) : null;
-        return acc;
-      }
-    });
-  } else if (arr.find(x => x === '/') === '/') {
-    final = arr.reduce((acc, item) => {
-      if (typeof Number(item) == 'number') {
-        !isNaN(item) ? (acc /= Number(item)) : null;
-        return acc;
-      }
-    });
-  }
+    }
 
-  displayArray = [final];
-  buffer = [final];
-  display.textContent = buffer;
+    else if(text === '='){
+
+    }
+
+}
+
+
+
+
+function midOperations(text){
+
+
+  if(buffer.length >=1){
+    display.textContent = displayArray.join('')
+
+       if (bufferArray.length >= 1){
+        if (typeof bufferArray[bufferArray.length-1] !== 'number'){
+            bufferArray.push(buffer.join(''))
+            bufferArray.push(text)
+            displayArray.push(text) 
+            display.textContent = displayArray.join('')
+        }
+        else if (typeof bufferArray[bufferArray.length-1] === 'number'){
+            bufferArray.push(text)            
+            bufferArray.push(buffer.join(''))
+            displayArray.push(text) 
+            display.textContent = displayArray.join('')
+
+
+        }
+       }else{
+        bufferArray.push(buffer.join(''))
+        bufferArray.push(text)
+        displayArray.push(text) 
+        display.textContent = displayArray.join('')
+
+    }
+
+   
+    console.log(bufferArray)
+    buffer =[]
+    
+    
+}else{
+
+    if (bufferArray.length >= 1){
+        if (typeof bufferArray[bufferArray.length-1] !== 'number'){
+            bufferArray[bufferArray.length-1] = text
+            bufferArray.push(text)
+            displayArray.push(text)
+            display.textContent = displayArray
+        }
+
+        }
+       
+}
+
+
+
+
+
+
+
+// first calc. works on the basis of operator that is in middle of two numbers, After that,
+// op present at last decide the operations.
+
+
+if(bufferArray.length >= 3){
+    let num1 = Number(bufferArray[0])
+    let op = (bufferArray[1])
+    let num2 = Number(bufferArray[2])
+    console.log(num1, op, num2)
+
+    if(typeof Number(num2) === 'number'){
+        operate (num1, op, num2)
+    }
+}
+
+
+}
+
+
+
+
+function operate (num1, op, num2){
+    let result;
+
+
+   switch(op){
+
+    case '+' :
+    result = num1+num2
+    break;
+
+    case '-' :
+    result = num1-num2
+    break;
+    
+
+    case 'x' :
+    result = num1*num2
+    break;
+   
+
+    case '/' :
+    result = num1/num2
+    break;
+    
+
+
+   }
+
+
+
+    displayArray = [result]
+    buffer = []
+    bufferArray=[result]
+    display.textContent = displayArray
+    
 }

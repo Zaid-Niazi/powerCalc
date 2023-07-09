@@ -1,29 +1,37 @@
+
+
+
 body{
     font-family: Arial, sans-serif;
 
 }
 .container{
-    height: 690px;
-    width: 550px;
-    border: 2px solid black;
+    height: 654px;
+    width: 554px;
     margin: auto;
     display: flex;
-    flex-grow: 1;
+    gap:0;
+    flex-basis: 0;
     flex-wrap: wrap;
 }
 
 .secondDisplay{
     height: 30px;
-    width: 550px;
-    margin: auto;
+    width: 540px;
+    border: 2px solid black;
+    border-bottom: none;
+    margin: 0px;
     font-size:25px;
     text-align: right;
 }
 
 .display{
     height: 150px;
-    width: 550px;
-    margin: auto;
+    width: 540px;
+    border: 2px solid black;
+    border-top: none;
+    border-bottom: none;
+    margin: 0px;
     font-size:150px;
     text-align: right;
 }
@@ -31,6 +39,7 @@ body{
 .numPad{
     width: 475px;
     height: 500px;
+    margin: 0px;
     display: flex;
     flex-wrap: wrap;
     gap:0;
@@ -38,16 +47,29 @@ body{
 }
 
 .sidePad{
-    width: 70px;
+    width: 75px;
     height: 494px;
-    border: 2px solid black;
+    margin: 0px;
     display: flex;
+    flex-grow: 1;
     flex-wrap: wrap;
 }
 
 
 
 .numButtons{
+    height: 155px;
+    margin: 0px;
+    width: 155px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 70px;
+}
+
+.eb{
+
     height: 155px;
     width: 155px;
     border: 1px solid black;
@@ -58,13 +80,14 @@ body{
 }
 
 .c0{
-    height: 20px;
-    width: 470px;
-    font-size: 25px;
+    height: 155px;
+    width: 155px;
+    font-size: 70px;
 }
 
 .sideButtons{
-    height: 96.8px;
+    height: 123.5px;
+    margin: 0px;
     width: 67px;
     border: 1px solid black;
     display: flex;
